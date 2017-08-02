@@ -1,0 +1,62 @@
+import React, { PureComponent } from 'react';
+import { Link } from 'react-router-dom';
+import './NavBar.css';
+import logo from './logo.svg';
+
+class NavBar extends PureComponent {
+  render() {
+    const style = {
+      width: '10vw',
+      height: '100vh',
+      background: 'black'
+    };
+
+    const styles = {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+    };
+
+    const stylez = {
+      height: '8.33%',
+      paddingTop: '3%',
+    };
+    return (
+      <div style={style}>
+
+        <div style={styles}>
+
+          <div>
+            <div style={stylez}>
+              <img src={logo} className="App-logo" alt="logo" />
+            </div>
+          </div>
+
+          <div style={stylez}>
+            <Link to ="/home">
+              <div><img src={logo} className="App-icon" alt="logo" /></div>
+              <div>Home</div>
+            </Link>
+          </div>
+
+          <div style={stylez}>
+            <Link to ="/about">
+              <div><img src={logo} className="App-icon" alt="logo" /></div>
+              <div>About</div>
+            </Link>
+          </div>
+
+          <div style={stylez}>
+            <Link to ="/account">
+              <div><img src={logo} className="App-icon" alt="logo" /></div>
+              <div>Account</div>
+            </Link>
+          </div>
+
+        </div>
+      </div>
+    );
+  }
+}
+export default NavBar;

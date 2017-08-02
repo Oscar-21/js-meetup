@@ -1,0 +1,65 @@
+import React, { Component } from 'react';
+import NavBar from '../NavBar';
+
+class Account extends Component {
+  constructor() {
+    super();
+    this.state = {
+       userName: '',
+       markup: [],
+    };
+  }
+
+  componentWillMount() {
+    fetch('http://homestead.app/api/userName'
+    ).then((response) => {
+      return response.json()
+    }).then((json) => {
+      this.setState({ userName: json })    
+    });
+    console.log('userName set and component mounted');
+  } 
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.userName !== this.state.userName) {
+      this.setState({ markup: 
+        <div>
+          <h1>{this.state.userName} Account Information</h1> 
+          <input style={{width: '40%'}} type="text" onChange={this.changeUserName} />
+          <button style={{width: '40%'}} onClick={this.bob}>Button</button>
+        </div>
+      });
+      console.log('userName updated and component rerendered');
+    } else if (prevState.userName === this.state.userName) {
+      console.log('userName not updated');
+    }
+  }
+
+  changeUserName = (e) => {
+    this.setState({userName: e.target.value}); 
+  }
+  bob = () => {
+    this.setState({userName: 'Bob'});
+  }
+  render() {
+    const style = {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    };
+
+    return ( 
+      <div style={{display: 'flex', flexDirection: 'row'}}>
+
+
+        <NavBar home={false} gamepad={false} camera={true} />
+
+        <div style={style}>
+          {this.state.markup}
+        </div>
+
+      </div>
+    );
+  }
+}
+export default Account;

@@ -1,22 +1,49 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import logo from './logo.svg';
-import './App.css';
+import Account from './components/Account';
+import About from './components/About';
+import SignUp from './components/SignUp';
+import SignIn from './components/SignIn';
+import Home from './components/Home';
+import styles from './components/styles';
 
+// Now we can render the view for the header
+// in any component.
 class App extends Component {
+
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+      <BrowserRouter>
+        <div style={styles.App.mainStyle}>
+
+        <Route 
+          exact path='/'
+          render={() => (<Home />)}
+        />
+          <Route
+            path='/About' 
+            render={(props) => (<About name='React' />)}
+          />
+
+          <Route
+            path='/account'
+            component={Account}
+          />
+
+          <Route
+            path='/signup'
+            component={SignUp}
+          />
+
+          <Route
+            path='/login'
+            component={SignIn}
+          />
+
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      </BrowserRouter>
     );
   }
 }
-
 export default App;
+

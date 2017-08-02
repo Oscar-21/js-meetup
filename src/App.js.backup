@@ -1,0 +1,30 @@
+import React, { Component } from 'react';
+import Header from './components/Header';
+import About from './components/About';
+import Account from './components/Account';
+import SemButton from './components/SemButton';
+import { BrowserRouter, Route } from 'react-router-dom';
+
+class App extends Component {
+  render() {
+    return (
+      <BrowserRouter>
+        <div>
+          <Header />
+          <Route path="/about" component={About} />
+          <Route 
+            path="/account" 
+            render = {
+              (props) => (
+                <Account name='Tim' />
+              )
+            } 
+          />
+          <SemButton />
+        </div>
+      </BrowserRouter>
+    );
+  }
+}
+
+export default App;
