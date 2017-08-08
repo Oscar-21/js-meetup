@@ -6,7 +6,6 @@ class SignUpForm extends Component {
     this.state = {
        password: '',
        email: '',
-       token: '',
     };
   }
 
@@ -37,9 +36,7 @@ class SignUpForm extends Component {
       } 
       else if (json.token !== false) {
         alert('Welcome Back!');
-        sessionStorage.setItem('token', JSON.stringify(json.token));
-        this.setState({ token: sessionStorage.getItem('token') });
-        console.log(this.state.token);
+        window.sessionStorage.setItem('token', JSON.stringify(json.token));
       }
     });
   }

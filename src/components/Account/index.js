@@ -6,14 +6,14 @@ class Account extends React.Component {
   constructor() {
     super();
     this.state = {
-      meeting: '',	
+      name: '',	
       date: '',	
       category: '',	 
-      token: '',
+      token: window.sessionStorage.getItem('token'),
     };
   }
 
-  handleMeeting = (e) => {
+  handleName = (e) => {
     this.setState({ meeting: e.target.value });
   }
 
@@ -25,6 +25,10 @@ class Account extends React.Component {
     this.setState({ date: e.target.value });
   }
 
+  showToken = () => {
+    console.log(this.state.token);
+  }	
+
   storeMeeting = () => {
     const data = new FormData();
     data.append('meeting', this.state.email);
@@ -32,6 +36,7 @@ class Account extends React.Component {
     data.append('date', this.state.password);
 
     fetch('http://react.app/api/savemeet', {
+      headers:{'Authorization': 'Bearer ' + this.state.token },
       method: 'post',
       body: data, 
     }).then((response) => {
@@ -39,16 +44,13 @@ class Account extends React.Component {
     }).then((json) => {
       if (json.error) {
         alert(json.error);
-      } else if (json.token === false) {
-        alert('invalid credentials');
-      } else if (json.token !== false) {
-        alert('Welcome Back!');
-        sessionStorage.setItem('token', JSON.stringify(json.token));
-        this.setState({ token: sessionStorage.getItem('token') });
-        console.log(this.state.token);
+      } else if (json.success) {
+        alert(json.success);
       }
     });
   }
+
+  	
 
  /*componentWillMount() {
     fetch('http:/react.app/api/userName'
@@ -168,28 +170,29 @@ foo = () => {
     }
   } */
   render() {
-    const style = {
+    /*const style = {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-    };
+    };*/
 
     return ( 
-      <div style={{display: 'flex', flexDirection: 'row'}}>
+      <div>
 
 
         <NavBar home={false} about={false} account={true} signup={false} signin={false} />
 
-        <div style={style}>
-          {/*this.CheckIfUserSet()*/}
-        </div>
+        {/*<div style={style}>
+          this.CheckIfUserSet()
+        </div>*/}
         {/*<button onClick={this.foo}  >button</button>*/}
 	{/*<a href="http://react.app/api/test">button</a>*/}
 
-	<input type="text" name="meeting" onChange={this.handleMeeting} />
+	<input type="text" name="name" onChange={this.handleName} />
 	<input type="text" name="category" onChange={this.handleCategory} />
 	<input type="text" name="date" onChange={this.handleDate} />
 	<button onClick={this.storeMeeting}>Button</button>
+        <button onClick={this.showToken}>Token</button>
 
       </div>
     );
