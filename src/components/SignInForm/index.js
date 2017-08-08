@@ -6,6 +6,7 @@ class SignUpForm extends Component {
     this.state = {
        password: '',
        email: '',
+       token: '',
     };
   }
 
@@ -22,16 +23,23 @@ class SignUpForm extends Component {
     data.append('email', this.state.email);
     data.append('password', this.state.password);
 
-    fetch('http://homestead.app/api/login', {
+    fetch('http://react.app/api/login', {
       method: 'post',
       body: data,
     }).then( response => {
       return response.json();
     }).then( json => { 
-      if (json.success) {
-        alert(json.success);
-      } else if (json.error) {
+      if (json.error) {
         alert(json.error);
+      } 
+      else if (json.token === false) {
+        alert('invalid credentials');
+      } 
+      else if (json.token !== false) {
+        alert('Welcome Back!');
+        sessionStorage.setItem('token', JSON.stringify(json.token));
+        this.setState({ token: sessionStorage.getItem('token') });
+        console.log(this.state.token);
       }
     });
   }

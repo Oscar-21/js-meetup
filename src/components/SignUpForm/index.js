@@ -42,7 +42,7 @@ class SignUpForm extends Component {
     data.append('password', this.state.password);
     data.append('avatar', this.state.avatar);
 
-    fetch('http://homestead.app/api/SignUp', {
+    fetch('http://react.app/api/SignUp', {
       method: 'post',
       body: data,
     }).then( response => {

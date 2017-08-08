@@ -8,7 +8,7 @@ class ShowImage extends Component {
     };
   }
   componentWillMount() {
-      fetch('http://homestead.app/api/showImage'
+      fetch('http://react.app/api/showImage'
     ).then(response => {
       return response.json();
       }).then(json => {

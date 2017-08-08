@@ -6,15 +6,52 @@ class Account extends React.Component {
   constructor() {
     super();
     this.state = {
-       userName: '',
-       markup: [],
+      meeting: '',	
+      date: '',	
+      category: '',	 
+      token: '',
     };
   }
 
+  handleMeeting = (e) => {
+    this.setState({ meeting: e.target.value });
+  }
 
+  handleCategory = (e) => {
+    this.setState({ category: e.target.value });
+  }
 
-  componentWillMount() {
-    fetch('http:/homestead.app/api/userName'
+  handleDate = (e) => {
+    this.setState({ date: e.target.value });
+  }
+
+  storeMeeting = () => {
+    const data = new FormData();
+    data.append('meeting', this.state.email);
+    data.append('category', this.state.password);
+    data.append('date', this.state.password);
+
+    fetch('http://react.app/api/savemeet', {
+      method: 'post',
+      body: data, 
+    }).then((response) => {
+      return response.json();
+    }).then((json) => {
+      if (json.error) {
+        alert(json.error);
+      } else if (json.token === false) {
+        alert('invalid credentials');
+      } else if (json.token !== false) {
+        alert('Welcome Back!');
+        sessionStorage.setItem('token', JSON.stringify(json.token));
+        this.setState({ token: sessionStorage.getItem('token') });
+        console.log(this.state.token);
+      }
+    });
+  }
+
+ /*componentWillMount() {
+    fetch('http:/react.app/api/userName'
     ).then( response => {
       return response.json();
     }).then( user => {
@@ -24,16 +61,16 @@ class Account extends React.Component {
   } 
 
 
-  /*componentWillMount() {
-    fetch('http://homestead.app/api/userName'
+  componentWillMount() {
+    fetch('http://react.app/api/userName'
     ).then(function(response) {
       return response.json();
     }).then(function(user) {
       this.setState({ userName: user }) 
-    }.bind(this));*/
+    }.bind(this));
    
 
-/*  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevState.userName !== this.state.userName) {
       this.setState({ markup: 
         <div>
@@ -46,16 +83,16 @@ class Account extends React.Component {
     } else if (prevState.userName === this.state.userName) {
       console.log('userName not updated');
     }
-  }*/
+  }
 
   
   changeUserName = function(e) {
     this.setState({userName: e.target.value}); 
   }.bind(this);
 
-/*  changeUserName = e => {
+  changeUserName = e => {
     this.setState({userName: e.target.value}); 
-  } */
+  } 
 
   bob = () => {
     this.setState({userName: 'Bob'});
@@ -113,7 +150,7 @@ foo = () => {
     }
   } 
 
-/*  CheckIfUserSet = () => {
+  CheckIfUserSet = () => {
     const markup =
         <div>
           {<h1 key={0}>{this.state.userName} Account Information</h1>} 
@@ -144,9 +181,16 @@ foo = () => {
         <NavBar home={false} about={false} account={true} signup={false} signin={false} />
 
         <div style={style}>
-          {this.CheckIfUserSet()}
+          {/*this.CheckIfUserSet()*/}
         </div>
-        <button onClick={this.foo}  >button</button>
+        {/*<button onClick={this.foo}  >button</button>*/}
+	{/*<a href="http://react.app/api/test">button</a>*/}
+
+	<input type="text" name="meeting" onChange={this.handleMeeting} />
+	<input type="text" name="category" onChange={this.handleCategory} />
+	<input type="text" name="date" onChange={this.handleDate} />
+	<button onClick={this.storeMeeting}>Button</button>
+
       </div>
     );
   }
